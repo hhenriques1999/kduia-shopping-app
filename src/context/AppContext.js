@@ -4,7 +4,7 @@ export const AppReducer = (state, action) => {
     let new_expenses = [];
 
     switch (action.type) {
-        case 'ADD_QUANTITY':
+        case 'ADD_BUDGET':
             state.expenses.map((expense) => {
                 if (expense.name === action.payload.name) {
                     expense.budget = expense.budget + action.payload.budget;
@@ -18,9 +18,9 @@ export const AppReducer = (state, action) => {
                 ...state,
             };
 
-        case 'RED_QUANTITY':
+        case 'RED_BUDGET':
             state.expenses.map((expense) => {
-                if (expense.namme === action.payload.name) {
+                if (expense.name === action.payload.name) {
                     expense.budget = expense.budget - action.payload.budget;
                 }
                 expense.budget = expense.budget < 0 ? 0 : expense.budget
@@ -76,7 +76,7 @@ export const AppProvider = (props) => {
     const [state, dispatch] = useReducer(AppReducer, initialState);
 
     const totalExpenses = state.expenses.reduce((total, item) => {
-        return (total = total + (item.unitprice * item.budget));
+        return (total = total + item.budget);
     }, 0);
     state.CartValue = totalExpenses;
 
