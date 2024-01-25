@@ -6,16 +6,18 @@ import ExpenseList from './components/ExpenseList';
 import DepartmentSelected from './components/DepartmentSelected';
 import Location from './components/Location';
 import TotalBudget from './components/TotalBudget';
+import RemainingFunds from './components/RemainingFunds';
 
 function App() {
     return (
         <AppProvider>
             <div className="App">
-                <div class="container">
+                <div className="container">
                     <h1>Company's Budget Allocation</h1>
                     <div className='d-flex gap-2 flex-row flex-wrap'>
                         <TotalBudget></TotalBudget>
                         <SpentBudget></SpentBudget>
+                        <RemainingFunds></RemainingFunds>
                         <Location></Location>
                     </div>
                     <h2>Allocation</h2>
