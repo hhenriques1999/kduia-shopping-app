@@ -4,23 +4,23 @@ import { AppContext } from '../context/AppContext';
 const DepartmentSelected = (props) => {
     const { dispatch } = useContext(AppContext);
     const [name, setName] = useState('');
-    const [quantity, setQuantity] = useState('');
+    const [value, setValue] = useState('');
     const [action, setAction] = useState('');
 
     const submitEvent = () => {
         const item = {
             name: name,
-            quantity: parseInt(quantity),
+            budget: parseInt(value),
         };
 
         if (action === "Reduce") {
             dispatch({
-                type: 'RED_QUANTITY',
+                type: 'RED_BUDGET',
                 payload: item
             })
         } else {
             dispatch({
-                type: 'ADD_QUANTITY',
+                type: 'ADD_BUDGET',
                 payload: item
             });
         }
@@ -42,23 +42,22 @@ const DepartmentSelected = (props) => {
                         <option value="IT" name="IT">IT</option>
                     </select>
                     <div className='input-group-preprend' style={{ marginLeft: '2rem' }}>
-                        <label className='input-group-text' htmlFor='inputGroupSelect02'>Quantity</label>
+                        <label className='input-group-text' htmlFor='inputGroupSelect02'>Budget</label>
                     </div>
                     <select className='custom-select' id='inputGroupSelect02' onChange={(event) => setAction(event.target.value)}>
                         <option defaultValue value="Add" name="Add">Add</option>
                         <option value="Reduce" name="Reduce">Reduce</option>
                     </select>
-                    <span className='eco' style={{ marginLeft: '2rem', marginRight: '8px' }}></span>
+                    <span className='eco'></span>
                     <input
                         required='required'
                         type='number'
                         id='cost'
-                        value={quantity}
-                        style={{ size: 10 }}
-                        onChange={(event) => setQuantity(event.target.value)}
+                        value={value}
+                        className='form-control'                        
+                        onChange={(event) => setValue(event.target.value)}
                     ></input>
-
-                    <button className='btn btn-primary' onClick={submitEvent} style={{marginLeft: '2rem'}}>
+                    <button className='btn btn-primary' onClick={submitEvent}>
                         Save
                     </button>
                 </div>
