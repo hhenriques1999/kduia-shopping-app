@@ -4,6 +4,27 @@ export const AppReducer = (state, action) => {
     let new_expenses = [];
 
     switch (action.type) {
+        case 'CHG_TOTAL_BUDGET':
+            state.totalBudget = action.payload.totalBudget;
+            action.type = "DONE";
+            return {
+                ...state
+            };
+
+        case 'ADD_BUDGET_10':
+            state.expenses.map((expense) => {
+                if (expense.name === action.payload.name) {
+                    expense.budget = expense.budget + 10;
+                }
+                new_expenses.push(expense);
+                return true;
+            })
+            state.expenses = new_expenses;
+            action.type = "DONE";
+            return {
+                ...state,
+            };
+
         case 'ADD_BUDGET':
             state.expenses.map((expense) => {
                 if (expense.name === action.payload.name) {
@@ -22,6 +43,21 @@ export const AppReducer = (state, action) => {
             state.expenses.map((expense) => {
                 if (expense.name === action.payload.name) {
                     expense.budget = expense.budget - action.payload.budget;
+                }
+                expense.budget = expense.budget < 0 ? 0 : expense.budget
+                new_expenses.push(expense)
+                return true;
+            })
+            state.expenses = new_expenses;
+            action.type = "DONE";
+            return {
+                ...state,
+            };
+
+        case 'RED_BUDGET_10':
+            state.expenses.map((expense) => {
+                if (expense.name === action.payload.name) {
+                    expense.budget = expense.budget - 10;
                 }
                 expense.budget = expense.budget < 0 ? 0 : expense.budget
                 new_expenses.push(expense)
@@ -67,7 +103,9 @@ const initialState = {
         { id: "Human Resource", name: "Human Resource", budget: 0 },
         { id: "IT", name: "IT", budget: 0 },
     ],
-    Location: '£'
+    Location: '£',
+    totalBudget: 0,
+    remainingFunds: 0,
 }
 
 export const AppContext = createContext();
@@ -78,12 +116,17 @@ export const AppProvider = (props) => {
     const totalExpenses = state.expenses.reduce((total, item) => {
         return (total = total + item.budget);
     }, 0);
-    state.CartValue = totalExpenses;
+
+    state.totalExpenses = totalExpenses;
+
+    state.remainingFunds = state.totalBudget - totalExpenses;
 
     return (
         <AppContext.Provider value={{
             expenses: state.expenses,
-            CartValue: state.CartValue,
+            totalExpenses: state.totalExpenses,
+            totalBudget: state.totalBudget,
+            remainingFunds: state.remainingFunds,
             dispatch,
             Location: state.Location
         }}
