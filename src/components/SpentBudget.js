@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 const SpentBudget = () => {
     const { expenses, Location } = useContext(AppContext);
-    // REDO BUDGET LOGIC
-    const totalExpenses = expenses.reduce((total, item) => {
-        return (total += (item.unitprice * item.quantity));
+    const totalExpenses = expenses.reduce((total, expense) => {
+        return total += expense.budget;
     }, 0);
     return (
         <div className='alert alert-primary'>
